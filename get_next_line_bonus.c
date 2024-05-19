@@ -1,8 +1,6 @@
-#include "get_next_line.h"
 #include "get_next_line_bonus.h"
-#include <fcntl.h>
 
-char	*reader(int fd, char *str, char *buf)
+char	*reader(int fd, char *buf, char *str)
 {
 	char	*s;
 	int		i;
@@ -33,13 +31,11 @@ char	*reader(int fd, char *str, char *buf)
 
 char	*current(char *str)
 {
-	char	*s;
 	size_t	i;
+	char	*s;
 
-	if (!str)
-		return (NULL);
 	i = 0;
-	while (str[i] != '\n' && str[i])
+	while (str[i] && str[i] != '\n')
 		i++;
 	if (str[i] == '\n')
 		i++;
@@ -48,7 +44,7 @@ char	*current(char *str)
 		return (NULL);
 	s[i] = '\0';
 	i = 0;
-	while (str[i] != '\n' && str[i])
+	while (str[i] && str[i] != '\n')
 	{
 		s[i] = str[i];
 		i++;
@@ -60,40 +56,36 @@ char	*current(char *str)
 
 char	*next(char *str)
 {
-	char	*s;
 	size_t	i;
+	char	*s;
 
 	i = 0;
-	while (str[i] != '\n' && str[i])
+	while (str[i] && str[i] != '\n')
 		i++;
 	if (str[i] == '\n')
-	{
 		i++;
-	}
 	if (!str[i])
 	{
 		free(str);
 		return (NULL);
 	}
 	s = ft_strdup(str + i);
-	if (!s)
-		return (NULL);
 	free(str);
 	return (s);
 }
 
 char	*get_next_line(int fd)
 {
+	char		*buf;
 	static char	*str[1024];
 	char		*s;
-	char		*buf;
 
-	if (BUFFER_SIZE <= 0 || fd < 0 || fd > 1024)
+	if (fd < 0 || fd > 1024 || BUFFER_SIZE <= 0)
 		return (NULL);
 	buf = malloc(BUFFER_SIZE + 1);
 	if (!buf)
 		return (NULL);
-	str[fd] = reader(fd, str[fd], buf);
+	str[fd] = reader(fd, buf, str[fd]);
 	if (!str[fd])
 		return (NULL);
 	s = current(str[fd]);
