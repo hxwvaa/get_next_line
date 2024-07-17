@@ -70,6 +70,8 @@ char	*next(char *str)
 		return (NULL);
 	}
 	s = ft_strdup(str + i);
+	if (!s)
+		return (NULL);
 	free(str);
 	return (s);
 }
@@ -80,7 +82,7 @@ char	*get_next_line(int fd)
 	static char	*str;
 	char		*s;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || BUFFER_SIZE > INT_MAX)
 		return (NULL);
 	buf = malloc(BUFFER_SIZE + 1);
 	if (!buf)
@@ -92,3 +94,28 @@ char	*get_next_line(int fd)
 	str = next(str);
 	return (s);
 }
+// int main(void)
+// {
+// 	int fd = open("test.txt", O_RDONLY);
+
+// 	char *str;
+// 	str  = get_next_line(fd);
+// 	while(str != NULL)
+// 	{
+// 		printf("%s",str);
+// 		free(str);
+// 		str = get_next_line(fd);
+// 	}
+// 	close(fd);
+// 	//while (i <= 5)
+// 	// {
+// 	// 	str = get_next_line(fd);
+// 	// 	printf("%s", str);
+// 	// 	free(str);
+// 	// 	i++;
+// 	// }
+// 	// 	// str = get_next_line(fd);
+// 		// printf("%s", str);
+// 		// free(str);
+
+// }
