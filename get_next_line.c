@@ -6,7 +6,7 @@
 /*   By: hbasheer <hbasheer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 15:40:46 by hbasheer          #+#    #+#             */
-/*   Updated: 2024/07/17 15:40:47 by hbasheer         ###   ########.fr       */
+/*   Updated: 2024/07/18 18:49:48 by hbasheer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,9 +94,9 @@ char	*get_next_line(int fd)
 	static char	*str;
 	char		*s;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || BUFFER_SIZE > INT_MAX)
+	if (fd < 0 || BUFFER_SIZE <= 0 || BUFFER_SIZE >= INT_MAX)
 		return (NULL);
-	buf = malloc(BUFFER_SIZE + 1);
+	buf = malloc((size_t)BUFFER_SIZE + 1);
 	if (!buf)
 		return (NULL);
 	str = reader(fd, buf, str);
@@ -106,28 +106,3 @@ char	*get_next_line(int fd)
 	str = next(str);
 	return (s);
 }
-// int main(void)
-// {
-// 	int fd = open("test.txt", O_RDONLY);
-
-// 	char *str;
-// 	str  = get_next_line(fd);
-// 	while(str != NULL)
-// 	{
-// 		printf("%s",str);
-// 		free(str);
-// 		str = get_next_line(fd);
-// 	}
-// 	close(fd);
-// 	//while (i <= 5)
-// 	// {
-// 	// 	str = get_next_line(fd);
-// 	// 	printf("%s", str);
-// 	// 	free(str);
-// 	// 	i++;
-// 	// }
-// 	// 	// str = get_next_line(fd);
-// 		// printf("%s", str);
-// 		// free(str);
-
-// }
